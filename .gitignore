@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+build/
+data/current_episode.json
+data/rotation_state.json
+public/*.mp3
+public/*.wav
+
