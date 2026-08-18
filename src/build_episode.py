@@ -38,13 +38,17 @@ def build_dialogue(product: Product, angle_cycle: int = 0) -> list[dict[str, str
         "This time, the interesting angle is who it is actually for. A surprising product can be clever and still not belong in every home.",
     )
     angle_line = angle_lines[angle_cycle % len(angle_lines)]
+    if product.price.lower().startswith("see current"):
+        price_line = "The current price is shown on the product page. Check it before deciding, because prices can change."
+    else:
+        price_line = f"The approved price in the current edition is {product.price}. Prices can change, so check the current product page before deciding."
     return [
         {"speaker": "Maya", "text": "Quick question: when was the last time a product made you stop and say, wait, that exists?"},
         {"speaker": "Daniel", "text": f"That is exactly what happened with {product.name}. It sounds unusual, but the idea is surprisingly straightforward."},
         {"speaker": "Maya", "text": product.description},
         {"speaker": "Daniel", "text": f"And this is why it made the list: {product.why_it_made_the_list}"},
         {"speaker": "Maya", "text": angle_line},
-        {"speaker": "Daniel", "text": f"The approved price in the current edition is {product.price}. Prices can change, so check the current product page before deciding."},
+        {"speaker": "Daniel", "text": price_line},
         {"speaker": "Maya", "text": "I can see this making sense for someone who values a simple tool with an immediate purpose, especially when the alternative is slower, messier, or more expensive."},
         {"speaker": "Daniel", "text": "We have not physically tested it, so take a close look at the specifications and confirm that it fits your situation."},
         {"speaker": "Maya", "text": "You will find the full product details through OneFantasticShop.net."},
