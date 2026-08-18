@@ -22,7 +22,8 @@ def generate_audio(episode_path: Path, output_mp3: Path, work_dir: Path) -> None
 
     for segment in episode["segments"]:
         voice = episode["hosts"][segment["speaker"]]
-        chunks = [audio for _, _, audio in pipeline(segment["text"], voice=voice, speed=1.0)]
+        speed = 1.05 if segment["speaker"] == "Maya" else 1.03
+        chunks = [audio for _, _, audio in pipeline(segment["text"], voice=voice, speed=speed)]
         if not chunks:
             raise RuntimeError(f"Kokoro returned no audio for {segment['speaker']}")
         pieces.extend(np.asarray(chunk, dtype=np.float32) for chunk in chunks)
@@ -39,4 +40,3 @@ def generate_audio(episode_path: Path, output_mp3: Path, work_dir: Path) -> None
         ],
         check=True,
     )
-
