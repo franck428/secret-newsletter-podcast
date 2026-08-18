@@ -38,7 +38,7 @@ jobs:
 
   build:
     needs: test
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.SECRET_NEWSLETTER_LATEST_URL != '') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.SECRET_NEWSLETTER_LATEST_URL != '') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[pilot]')) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,12 +55,18 @@ jobs:
         env:
           INPUT_URL: ${{ inputs.newsletter_url }}
           DEFAULT_URL: ${{ vars.SECRET_NEWSLETTER_LATEST_URL }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           SOURCE_URL="${INPUT_URL:-$DEFAULT_URL}"
+          if [ -z "$SOURCE_URL" ] && [ "$EVENT_NAME" = "push" ]; then SOURCE_URL="data/pilot_newsletter.json"; fi
           test -n "$SOURCE_URL" || { echo "No permanent newsletter source configured" >&2; exit 1; }
           echo "url=$SOURCE_URL" >> "$GITHUB_OUTPUT"
       - name: Generate podcast
         run: python -m src.run_pipeline --source "${{ steps.source.outputs.url }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: first-podcast-mp3
+          path: public/latest-podcast.mp3
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public
