@@ -1,0 +1,63 @@
+name: Daily Secret Newsletter Podcast
+
+on:
+  workflow_dispatch:
+    inputs:
+      newsletter_url:
+        description: Optional source URL override
+        required: false
+        type: string
+  schedule:
+    - cron: "15 6 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: secret-newsletter-podcast
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.SECRET_NEWSLETTER_LATEST_URL != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install system audio tools
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Test source validation and rotation
+        run: pytest -q
+      - name: Resolve approved newsletter source
+        id: source
+        env:
+          INPUT_URL: ${{ inputs.newsletter_url }}
+          DEFAULT_URL: ${{ vars.SECRET_NEWSLETTER_LATEST_URL }}
+        run: |
+          SOURCE_URL="${INPUT_URL:-$DEFAULT_URL}"
+          test -n "$SOURCE_URL" || { echo "No permanent newsletter source configured" >&2; exit 1; }
+          echo "url=$SOURCE_URL" >> "$GITHUB_OUTPUT"
+      - name: Generate podcast
+        run: python -m src.run_pipeline --source "${{ steps.source.outputs.url }}"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy public episode
+        id: deployment
+        uses: actions/deploy-pages@v4
+
