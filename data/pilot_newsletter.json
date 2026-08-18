@@ -1,0 +1,79 @@
+{
+  "edition_id": "pilot-2026-08-18",
+  "edition_date": "2026-08-18T08:00:00Z",
+  "updated_at": "2026-08-18T12:00:00Z",
+  "title": "First Podcast Voice Pilot",
+  "products": [
+    {
+      "name": "AI Voice Recorder Pro 64GB",
+      "price": "See current price on the product page",
+      "description": "It is a compact AI-assisted voice recorder designed to turn spoken audio into organized notes, with transcription, summaries, noise reduction, multilingual support, internal storage, and app control.",
+      "why_it_made_the_list": "It takes a familiar object, the pocket recorder, and adds a genuinely useful layer for meetings, interviews, lectures, and ideas that would otherwise need to be transcribed by hand.",
+      "url": "https://onefantasticshop.net/en/home/9283-ai-voice-recorder-pro-transcribe-summarize-noise-cancellation-152-languages-64gb-app-control.html",
+      "category": "AI & Smart Devices"
+    },
+    {
+      "name": "Yamiry Fingerprint Smart Door Lock",
+      "price": "See current price on the product page",
+      "description": "A keyless smart door lock combining fingerprint, keypad, passcode, and app-based access options.",
+      "why_it_made_the_list": "It offers several practical ways to manage entry without depending on a traditional key.",
+      "url": "https://onefantasticshop.net/en/home/8383-yamiry-keypad-smart-door-lock-with-knob-fingerprint-passcode-keyless-entry-easy-installation.html"
+    },
+    {
+      "name": "Blinq Digital NFC Business Card",
+      "price": "See current price on the product page",
+      "description": "A reusable NFC and QR business card for sharing a customizable digital contact profile.",
+      "why_it_made_the_list": "It replaces stacks of printed cards with one profile that can be updated after every introduction.",
+      "url": "https://onefantasticshop.net/en/home/9368-blinq-digital-nfc-business-card-instant-tap-share-compatible-with-iphone-android-black.html"
+    },
+    {
+      "name": "Miko 3 AI Smart Robot for Kids",
+      "price": "$253.99",
+      "description": "An interactive AI robot built around educational games, conversation, and STEAM learning for children.",
+      "why_it_made_the_list": "It turns learning activities into a conversational, playful experience rather than another passive screen.",
+      "url": "https://onefantasticshop.net/en/home/7674-miko-3-ai-powered-smart-robot-for-kids-steam-learning-interactive-games-birthday-gift-ages-5-12-red.html"
+    },
+    {
+      "name": "2XL Interactive Robot Toy for Kids",
+      "price": "$199.99",
+      "description": "A voice-interactive learning robot with stories, quizzes, multilingual support, and parental controls.",
+      "why_it_made_the_list": "It combines screen-free conversation with adaptable learning and creative play.",
+      "url": "https://onefantasticshop.net/en/home/9349-2xl-interactive-robot-toy-for-kids-smart-learning-stories-quizzes-40-languages-voice-parental-controls.html"
+    },
+    {
+      "name": "RunStar Smart Scale",
+      "price": "$170.94",
+      "description": "A connected scale designed to track multiple body-composition metrics and show key results on a color display.",
+      "why_it_made_the_list": "It brings detailed progress tracking into a familiar daily routine without requiring separate equipment.",
+      "url": "https://onefantasticshop.net/en/home/8927-runstar-smart-scale-with-28-body-metrics-8-electrodes-tft-lcd-fsahsa-eligible-retractable-handle.html"
+    },
+    {
+      "name": "Veise RZ07 Smart Fingerprint Lock",
+      "price": "$39.00",
+      "description": "A seven-in-one keyless entry lock with fingerprint recognition, keypad, and app control.",
+      "why_it_made_the_list": "It puts several modern access methods into one surprisingly affordable door upgrade.",
+      "url": "https://onefantasticshop.net/en/home/8853-veise-rz07-smart-fingerprint-door-lock-7-in-1-keyless-entry-touchscreen-keypad-app-control-matte-black.html"
+    },
+    {
+      "name": "Ozobot Ari Entry Kit",
+      "price": "$250.00",
+      "description": "An interactive STEM robot with a touchscreen, sensors, and coding activities for classroom or home learning.",
+      "why_it_made_the_list": "It makes abstract coding concepts tangible through a small device learners can see and control.",
+      "url": "https://onefantasticshop.net/en/home/9229-ozobot-ari-entry-kit-interactive-stem-robot-with-touchscreen-sensors-ai-for-classroom-homeschool.html"
+    },
+    {
+      "name": "1080P Pet Camera Robot",
+      "price": "See current price on the product page",
+      "description": "A movable home camera robot with two-way talk, night vision, and automatic recharging.",
+      "why_it_made_the_list": "Instead of watching one fixed corner, the camera can move through the home and keep the connection interactive.",
+      "url": "https://onefantasticshop.net/en/home/9304-pet-camera-robot-1080p-home-security-with-movable-robot-custom-facial-expression-auto-recharge-2-way-talk-night-vision.html"
+    },
+    {
+      "name": "NETGEAR Nighthawk WiFi 7 Router RS140",
+      "price": "$159.28",
+      "description": "A compact WiFi 7 router designed for faster wireless connections, broad home coverage, and many connected devices.",
+      "why_it_made_the_list": "It brings a newer generation of home networking into a form that can replace an aging router without becoming a specialist project.",
+      "url": "https://onefantasticshop.net/en/home/9084-netgear-nighthawk-dual-band-wifi-7-router-rs140-50-gbps-25g-port-covers-2250-sq-ft-80-devices.html"
+    }
+  ]
+}

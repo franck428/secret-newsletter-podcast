@@ -4,9 +4,7 @@ import argparse
 from pathlib import Path
 
 from .build_episode import build_episode, save_episode_and_state
-from .generate_audio import generate_audio
 from .newsletter import fetch_latest_newsletter
-from .publish_episode import publish
 
 
 def main() -> None:
@@ -24,6 +22,9 @@ def main() -> None:
     episode = build_episode(newsletter, state_path, args.episode_date)
     save_episode_and_state(episode, episode_path, state_path)
     if not args.skip_audio:
+        from .generate_audio import generate_audio
+        from .publish_episode import publish
+
         mp3_path = root / "build/latest-podcast.mp3"
         generate_audio(episode_path, mp3_path, root / "build/audio")
         publish(episode_path, mp3_path, public_dir)
@@ -31,4 +32,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
