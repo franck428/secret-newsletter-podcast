@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -19,22 +19,31 @@ def _load_state(path: Path) -> dict[str, Any]:
         return {}
 
 
-def select_product(newsletter: Newsletter, state_path: Path) -> tuple[int, Product]:
-    state = _load_state(state_path)
-    if state.get("edition_id") != newsletter.edition_id:
-        return 0, newsletter.products[0]
-    previous = int(state.get("last_product_index", -1))
-    index = (previous + 1) % len(newsletter.products)
-    return index, newsletter.products[index]
+def select_product(newsletter: Newsletter, episode_date: str) -> tuple[int, Product, int]:
+    """Select deterministically because every Actions runner starts with no local state."""
+    edition_day = datetime.fromisoformat(
+        newsletter.edition_date.replace("Z", "+00:00")
+    ).astimezone(timezone.utc).date()
+    current_day = date.fromisoformat(episode_date)
+    elapsed_days = max(0, (current_day - edition_day).days)
+    index = elapsed_days % len(newsletter.products)
+    angle_cycle = elapsed_days // len(newsletter.products)
+    return index, newsletter.products[index], angle_cycle
 
 
-def build_dialogue(product: Product) -> list[dict[str, str]]:
+def build_dialogue(product: Product, angle_cycle: int = 0) -> list[dict[str, str]]:
+    angle_lines = (
+        "The useful question is not whether it has the longest feature list. It is whether it solves a real, everyday problem without making things complicated.",
+        "Today, let us look at the value equation: what friction could this remove, and is that convenience worth the current price?",
+        "This time, the interesting angle is who it is actually for. A surprising product can be clever and still not belong in every home.",
+    )
+    angle_line = angle_lines[angle_cycle % len(angle_lines)]
     return [
         {"speaker": "Maya", "text": "Quick question: when was the last time a product made you stop and say, wait, that exists?"},
         {"speaker": "Daniel", "text": f"That is exactly what happened with {product.name}. It sounds unusual, but the idea is surprisingly straightforward."},
         {"speaker": "Maya", "text": product.description},
         {"speaker": "Daniel", "text": f"And this is why it made the list: {product.why_it_made_the_list}"},
-        {"speaker": "Maya", "text": "The useful question is not whether it has the longest feature list. It is whether it solves a real, everyday problem without making things complicated."},
+        {"speaker": "Maya", "text": angle_line},
         {"speaker": "Daniel", "text": f"The approved price in the current edition is {product.price}. Prices can change, so check the current product page before deciding."},
         {"speaker": "Maya", "text": "I can see this making sense for someone who values a simple tool with an immediate purpose, especially when the alternative is slower, messier, or more expensive."},
         {"speaker": "Daniel", "text": "We have not physically tested it, so take a close look at the specifications and confirm that it fits your situation."},
@@ -46,17 +55,18 @@ def build_dialogue(product: Product) -> list[dict[str, str]]:
 
 
 def build_episode(newsletter: Newsletter, state_path: Path, episode_date: str | None = None) -> dict[str, Any]:
-    index, product = select_product(newsletter, state_path)
     day = episode_date or date.today().isoformat()
+    index, product, angle_cycle = select_product(newsletter, day)
     return {
         "episode_id": f"{newsletter.edition_id}-{day}-{index + 1}",
         "date": day,
         "title": f"The Find of the Day: {product.name}",
         "edition_id": newsletter.edition_id,
         "product_index": index,
+        "angle_cycle": angle_cycle,
         "product": asdict(product),
         "hosts": {"Maya": "af_heart", "Daniel": "am_michael"},
-        "segments": build_dialogue(product),
+        "segments": build_dialogue(product, angle_cycle),
     }
 
 
@@ -70,4 +80,3 @@ def save_episode_and_state(episode: dict[str, Any], episode_path: Path, state_pa
         "last_episode_id": episode["episode_id"],
     }
     state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
-
